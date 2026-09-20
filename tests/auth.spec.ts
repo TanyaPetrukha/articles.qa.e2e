@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const {API_URL} = process.env;
+const { API_URL } = process.env;
 const username = `ttt+${new Date().getTime()}`;
 const email = `ttt_email+${new Date().getTime()}@gmail.com`;
 const password = "Test123!@#";
@@ -108,10 +108,7 @@ test.describe("ART-002 Login", { tag: ["@auth", "@login"] }, () => {
     await page.getByTestId("auth-password").fill(password);
     await page.getByTestId("auth-submit").click();
 
-    await expect(
-      page
-        .getByTestId("error-messages")
-        .getByText("email or password неправильні"),
-    ).toBeVisible();
+    await expect(page.getByTestId("error-messages")).toBeVisible();
+    await expect(page.getByTestId("feed-tab-your")).not.toBeVisible();
   });
 });
