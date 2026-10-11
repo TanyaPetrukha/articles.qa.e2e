@@ -17,7 +17,7 @@ test(
 
     const articleHeadlines: string[] = [];
 
-    for (let i = 1; i <= 1; i++) {
+    for (let i = 1; i <= 10; i++) {
       const newHeadline = `Headline TTT ${runId}-${i}`;
       await createArticle(page, newHeadline, "description", "body");
       articleHeadlines.push(newHeadline);
