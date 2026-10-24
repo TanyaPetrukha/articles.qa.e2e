@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-function isVotingAge(age) {
+function isVotingAge(age: number) {
   if (typeof age !== "number") {
     throw new Error("Передайте число");
   } else if (age > 150) {
@@ -19,11 +19,11 @@ test("вік менше 18", () => {
 });
 
 test("вік 18", () => {
-  expect(isVotingAge(18)).toBe(	"Ви можете голосувати.");
+  expect(isVotingAge(18)).toBe("Ви можете голосувати.");
 });
 
 test("вік 19", () => {
-  expect(isVotingAge(19)).toBe(	"Ви можете голосувати.");
+  expect(isVotingAge(19)).toBe("Ви можете голосувати.");
 });
 
 test("вік менше 0", () => {
@@ -31,9 +31,12 @@ test("вік менше 0", () => {
 });
 
 test("вік більше 150", () => {
-  expect(() => isVotingAge(151)).toThrow("Так довго не живуть. Ви точно людина?");
+  expect(() => isVotingAge(151)).toThrow(
+    "Так довго не живуть. Ви точно людина?",
+  );
 });
 
 test("рядок спричиняє помилку", () => {
+  //@ts-ignore
   expect(() => isVotingAge("18")).toThrow("Передайте число");
 });
