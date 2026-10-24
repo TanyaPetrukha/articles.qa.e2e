@@ -9,7 +9,7 @@ const emailExist = `ttt_Student_email+${new Date().getTime()}@gmail.com`;
 const emailNotExist = `ttt_+${new Date().getTime()}@gmail.com`;
 
 test.beforeAll(async ({ request }) => {
-  await request.post(API_URL!, {
+  await request.post(`${API_URL}/users`, {
     data: {
       user: {
         username: usernameExist,
