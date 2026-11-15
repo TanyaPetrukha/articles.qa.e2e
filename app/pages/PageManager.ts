@@ -4,6 +4,7 @@ import { LoginPage } from "./LoginPage/LoginPage";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
 import { ProfilePage } from "./ProfilePage/ProfilePage";
 import { SettingsPage } from "./SettingsPage/SettingsPage";
+import { ArticlePage } from "./ArticlePage/ArticlePage";
 
 export class PageManager {
   readonly homePage: HomePage;
@@ -11,6 +12,7 @@ export class PageManager {
   readonly registerPage: RegisterPage;
   readonly profilePage: ProfilePage;
   readonly settingsPage: SettingsPage;
+  readonly articlePage: ArticlePage;
 
   constructor(page: Page) {
     this.homePage = new HomePage(page);
@@ -18,5 +20,6 @@ export class PageManager {
     this.registerPage = new RegisterPage(page);
     this.profilePage = new ProfilePage(page);
     this.settingsPage = new SettingsPage(page);
+    this.articlePage = new ArticlePage(page);
   }
 }
