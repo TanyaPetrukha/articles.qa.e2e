@@ -1,23 +1,13 @@
 import { faker } from "@faker-js/faker";
 
-const { EMAIL, USER_NAME, PASSWORD } = process.env;
+export function generateUser() {
+  const unique = `${Date.now()}${faker.string.alphanumeric(5)}`.toLowerCase();
+  return {
+    user: {
+      email: `qa_${unique}@test.com`,
+      password: "Test123!@#",
+      username: `qa_${unique}`,
+    },
+  };
+}
 
-export const userRegisterData = {
-  user: {
-    email: faker.internet.email(),
-    password: "Test123!@#",
-    username: faker.person.firstName(),
-  },
-};
-
-export const userUpdateData = {
-  user: {
-    bio: faker.person.bio(),
-    image: faker.image.avatar(),
-  },
-};
-
-export const userLoginData = {
-  email: EMAIL,
-  password: PASSWORD,
-};

@@ -1,8 +1,7 @@
 import { BaseContoroller } from "./BaseController.controller";
-import { User} from "../interfaces/UserInterface.interface";
+import { User } from "../interfaces/UserInterface.interface";
 
 export class UsersController extends BaseContoroller {
-
   async login(userData: User) {
     const response = await this.request.post(
       `${process.env.API_URL}/users/login`,
@@ -25,5 +24,9 @@ export class UsersController extends BaseContoroller {
       data: userData,
     });
     return response;
+  }
+
+  async getCurrentUser() {
+    return this.request.get(`${process.env.API_URL}/user`);
   }
 }

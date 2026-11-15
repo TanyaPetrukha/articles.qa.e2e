@@ -1,43 +1,58 @@
 import { test as base, expect, request } from "@playwright/test";
 import { UsersController } from "../../../app/controllers/UsersController.controller";
 import { createLocalStorage } from "./StorageHelper";
-import { userRegisterData } from "../users.data";
+import { generateUser } from "../users.data";
+import { PageManager } from "../../../app/pages/PageManager";
+
+type CreatedUser = {
+  email: string;
+  username: string;
+  password: string;
+  token: string;
+};
 
 type MyFixtures = {
+  createdUser: CreatedUser;
   token: string;
   login: void;
+  pages: PageManager;
 };
 
 const test = base.extend<MyFixtures>({
-  token: async ({}, use) => {
-    const context = await request.newContext({});
-    const usersController = new UsersController(context);
-    const response = await usersController.createUser(userRegisterData);
-    const text = await response.text();
-    const json = await response.json();
+  pages: async ({ page }, use) => {
+    const pages = new PageManager(page);
+    use(pages);
+  },
 
+  createdUser: async ({}, use) => {
+    const apiContext = await request.newContext();
+    const usersController = new UsersController(apiContext);
+    const userData = generateUser();
+
+    const response = await usersController.createUser(userData);
+
+    const json = await response.json();
     const token = json.user.token;
 
-    await use(token);
+    await apiContext.dispose();
+    await use({ ...userData.user, token });
   },
 
-  login: async ({ context, token }, use) => {
-    const localStorage = createLocalStorage(token);
-    await context.setStorageState(localStorage);
-
-    await use();
+  token: async ({ createdUser }, use) => {
+    await use(createdUser.token);
   },
 
-  request: async ({ token }, use) => {
-    const context = await request.newContext({
-      extraHTTPHeaders: {
-        authorization: "Token " + token,
-      },
-    });
+  login: [
+    async ({ context, token }, use) => {
+      const localStorage = createLocalStorage(token);
+      await context.setStorageState(localStorage);
 
-    await use(context);
-    await context.dispose();
-  },
+      await use();
+    },
+    {
+      auto: true,
+    },
+  ],
 });
 
-export {test, expect}
+export { test, expect };
