@@ -21,7 +21,7 @@ type MyFixtures = {
 const test = base.extend<MyFixtures>({
   pages: async ({ page }, use) => {
     const pages = new PageManager(page);
-    use(pages);
+    await use(pages);
   },
 
   createdUser: async ({}, use) => {
